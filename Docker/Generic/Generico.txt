@@ -1,0 +1,3 @@
+
+# Habilitar VM do hyper-v para docker desktop
+Set-VMProcessor -VMName 'nomedavm' -ExposeVirtualizationExtensions $true

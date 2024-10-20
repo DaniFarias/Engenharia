@@ -1,0 +1,121 @@
+-Desligar 
+sudo poweroff
+sudo shutdown -h 1 "O sistema será desligado"
+
+-Reiniciar
+sudo reboot
+Ex: sudo reboot -r 1 "O sistema será reiniciado" 
+
+- Cancelamento
+sudo shutdown -c
+
+vi /etc/crontab 		<!-- Visualizar Crontab -->
+service crond restart 	<!-- Reiniciar Crontab -->
+ls -lah					<!-- Listar com tamanho resumido -->
+df -h					<!-- listar sistemas de arquivos -->
+
+--bkp do banco--
+pg_dump -U postgres -F p -s gsan_comercial_saae /var/gsan/Bkp/gsan_comercial_saae.custom 
+pg_dump -h localhost -U postgres -w -p 5432 -v gsan_comercial_saae  --table "atendimentopublico.registro_atendimento_anexo" -F c --compress=9 > var/gsan/Bkp/gsan_comercial_saae.custom
+
+--Restore do Banco--
+pg_restore -F c -c -d gsan_comercial_saae /var/gsan/Bkp/velp_backup_gsan_21.custom -U postgres -W
+
+--bkp da estrutura do banco--
+pg_dump -s -d gsan_comercial_saae > /var/gsan/Bkp/gsan_comercial_saae.sql -U postgres
+
+-- tail -f /usr/local/jboss-4.0.1sp1/server/default/log/server.log
+-- find / -type d -name 'jboss-4.0.1sp1'
+
+VCORTE
+sh /var/gsan/jboss-as-7.1.1.Final/bin/standalone.sh
+tail -f /var/gsan/jboss-as-7.1.1.Final/standalone/log/server.log
+
+GSAN
+sh /var/gsan/jboss/bin/shutdown.sh -S
+tail -f /usr/local/jboss-4.0.1sp1/server/default/log/server.log
+rm -rf /var/gsan/jboss/server/default/work/*
+rm -rf /var/gsan/jboss/server/default/data/*
+rm -rf /var/gsan/jboss/server/default/tmp/*
+sh /var/gsan/jboss/bin/run.sh
+
+
+LOG GSAN
+tail -90000 /var/gsan/jboss/server/default/log/server.log > /var/gsan/jboss/server/default/log/gui90000.txt
+tail -f /var/gsan/jboss/server/default/log/server.log | grep 'Started'
+tail -f /var/gsan/jboss/server/default/log/server.log | grep 'Shutdown'
+tail -f /usr/local/jboss-4.0.1sp1/server/default/log/server.log | grep 'cobranca'
+
+
+- Info Setup 
+cat /proc/cpuinfo
+cat /proc/meminfo
+
+tar: Cria ou extrai arquivos, muito usado como programa de backup ou compressão de arquivos
+cp: Copia arquivos, como o copy do MS-DOS
+ls: Lista todos os arquivos do diretório
+vi: Abre o editor vi (lê-se viai) para editar/criar arquivos
+scp: Versão segura do rcp
+
+- Conferir serviço do crontab
+Dir Crontab > /var/spool/cron/
+service crond status
+service crond stop
+service crond start
+
+Gerenciador de tarefas 
+top - lista os processos sendo executados
+ps -A | grep 'master'
+Encerra processo 
+kill -999(PID) é o numero do processo 
+
+--Comando para edição de texto
+Para salvar precione ":w" (o texto não pode estar em modo de edição e sem aspas)
+Para sair precione ":q"
+Para sair sem salvar ":q!"
+Para sair e salvar ":wq"
+
+Comando Mount
+Monta Diretorio com dominio > 
+							sudo mount -t cifs -o domain=SAAE,username=backup,password=**123bkp //192.168.1.214/GsanBackup /mnt/storage
+							sudo mount.cifs  //192.168.1.107/Backup_GSAN /mnt/storage -o domain=SAAE,username=backup,password=**123bkp,vers=2.0
+Força desmonte do Diretorio > 
+							sudo umount -l /mnt/storage
+
+Monta auto pelo arquivo de config>
+							 /etc/fstab > //192.168.1.214/Backup_GSAN /mnt/storage	cifs	guest,uid=1000,iocharset=utf8	0	0
+
+Comandos de rede
+
+ifconfig - lista interfaces de rede diponiveis.
+nmtui - configuração via interface gráfica. (centos)
+
+
+comando cd (chenge directory)
+--- Estrutura do Sistema de Arquivos Linux ---
+/ - Raiz
+Bin e SBin - Pasta de programas e aplicativos (windows)
+Etc - Arquivos de configuração do sistema (painel de contre)
+Home - Pasta de usuarios
+Boot - Arquivos de inicializacao de sistema
+CdRom - 
+Dev - 
+Lib - Arquivos de bibliotecas (ddls)
+Media - 
+Mnt - Media removiveis (pen drives, hds externos)
+Root - Arquivos do usuario root (Cuidado)
+Tmp - Arquivos temporarios
+Var - arquivos temp e de logs
+Usr - Arquivos de programas instalados
+
+PLSQL LINUX
+sudo -u postgres psql
+\? listar todos os comandos
+\l listar bancos de dados
+\conninfo exibir informações sobre a conexão atual
+\c [DBNAME] conectar ao novo banco de dados, por exemplo, \c template1
+\dt listar tabelas do esquema público
+\dt <schema-name>.* listar tabelas de determinado esquema, por exemplo, \dt public.*
+\dt *.* listar tabelas de todos os esquemas
+Em seguida, você pode executar instruções SQL, por exemplo, SELECT * FROM my_table;(Nota: uma instrução deve ser finalizada com ponto e vírgula ;)
+\q saia do psql

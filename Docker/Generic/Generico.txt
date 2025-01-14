@@ -1,3 +1,4 @@
+# Ativar e desativar recurso do windows - Hyper V - Ferramentas de Ger. do Hyper V - Habilitar modulo do Hyper - V para o Power Shell
+# Liberação do WSL para VM criada no Hyper V
 
-# Habilitar VM do hyper-v para docker desktop
 Set-VMProcessor -VMName 'nomedavm' -ExposeVirtualizationExtensions $true
